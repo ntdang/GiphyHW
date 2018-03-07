@@ -1,48 +1,6 @@
 $(document).ready(function () {
-  $('#add-show').on('click', function () {
-    event.preventDefault();
-
-    if ($('#show-input').val() === '') {
-      $('#show-input').addClass('is-invalid');
-      return false;
-    }
-    $('#show-input').removeClass('is-invalid');
-
-    var showInput = $('#show-input').val();
-    var queryURL =
-      'https://api.giphy.com/v1/gifs/search?api_key=qVceYfjJGpS4ovfu8seNpK6Zg9i4atGR&q=' +
-      showInput;
-
-    $.ajax({
-      url: queryURL,
-      method: 'GET'
-    }).then(function (gifData) {
-      console.log(gifData);
-      // printResults(nytData.response.docs);
-    });
-  });
-  //END CLICK EVENT
-
-  //PRINT RESULTS
+  // TV shows array
   var tvShows = ["Friends", "Gilmore Girls", "Scandal", "Buffy the Vampire Slayer", "Doug", "Full House", "Family Matters", "Martin", "Dawson's Creek", "The Fresh Prince of Bel-Air"];
-
-  // displayMovieInfo function re-renders the HTML to display the appropriate content
-  // function displayShowInfo() {
-
-  //   var movie = $(this).attr("data-name");
-  //   var queryURL = "https://www.omdbapi.com/?t=" + movie + "&y=&plot=short&apikey=trilogy";
-
-  //   // Creates AJAX call for the specific movie button being clicked
-  //   $.ajax({
-  //     url: queryURL,
-  //     method: "GET"
-  //   }).then(function(response) {
-
-  //     // YOUR CODE GOES HERE!!!
-
-  //   });
-
-  // }
 
   // Function for displaying tv show buttons
   function renderButtons() {
@@ -61,19 +19,23 @@ $(document).ready(function () {
       btn.addClass("show");
       // Added a data-attribute
       btn.attr("data-name", tvShows[i]);
-      // Added a data-state
-      btn.attr("data-state", "still");
       // Provided the initial button text
       btn.text(tvShows[i]);
       // Added the button to the buttons-view div
       $("#tvShowBtns").append(btn);
-    }
-  }
+    };
+  };
   // This function handles events where the add show button is clicked
-  $("#add-show").on("click", function(event) {
+  $("#add-show").on("click", function (event) {
     event.preventDefault();
     // This line of code will grab the input from the textbox
     var show = $("#show-input").val().trim();
+
+    if ($('#show-input').val() === '') {
+      $('#show-input').addClass('is-invalid');
+      return false;
+    }
+    $('#show-input').removeClass('is-invalid');
 
     // The movie from the textbox is then added to our array
     tvShows.push(show);
@@ -83,43 +45,55 @@ $(document).ready(function () {
 
   });
 
-  // Adding click event listeners to all elements with a class of "movie"
-  // $(document).on("click", ".show", displayShowInfo);
+  // Calling the renderButtons function to display the intial buttons
+  renderButtons();
 
-// Calling the renderButtons function to display the intial buttons
-renderButtons();
+  //Click function
+  $('button').on('click', function () {
+    var showInput = $(this).attr('data-name');
+    var queryURL =
+      'https://api.giphy.com/v1/gifs/search?api_key=qVceYfjJGpS4ovfu8seNpK6Zg9i4atGR&q=' +
+      showInput + "&limit=10";
+
+    $.ajax({
+      url: queryURL,
+      method: 'GET'
+    }).then(function (gifData) {
+      console.log(gifData);
+
+      for (var j = 0; j < tvShows.length; j++) {
+        var gifDiv = $('#tvShows');
+        var showDiv = $('<div>');
+        var showImg = $('<img>');
+
+        showImg.attr('src', gifData.data[j].images.fixed_height_still.url);
+        showImg.attr('alt', gifData.data[j].title);
+        showImg.attr('data-still', gifData.data[j].images.fixed_height_still.url);
+        showImg.attr('data-animate', gifData.data[j].images.fixed_height.url);
+        showImg.attr('data-state', 'still');
+        showImg.addClass('gif');
+        showDiv.append('<p> Rating: ' + gifData.data[j].rating + '</p>');
+        showDiv.append(showImg);
+        gifDiv.prepend(showDiv);
+      }
+    });
+  });
+  //END CLICK EVENT
 
 
+  $(document).on('click', '.gif', function() {
+    var state = $(this).attr("data-state");
 
+    if (state === 'still') {
+      $(this).attr('src', $(this).attr('data-animate'));
+      $(this).attr('data-state', 'animate');
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    else {
+      $(this).attr('src', $(this).attr('data-still'));
+      $(this).attr('data-state', 'still');
+    }
+  });
 
 
 
