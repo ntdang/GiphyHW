@@ -28,6 +28,7 @@ $(document).ready(function () {
   // This function handles events where the add show button is clicked
   $("#add-show").on("click", function (event) {
     event.preventDefault();
+    
     // This line of code will grab the input from the textbox
     var show = $("#show-input").val().trim();
 
@@ -37,7 +38,7 @@ $(document).ready(function () {
     }
     $('#show-input').removeClass('is-invalid');
 
-    // The movie from the textbox is then added to our array
+    // The show from the textbox is then added to our array
     tvShows.push(show);
 
     // Calling renderButtons which handles the processing of our tv shows array
@@ -48,12 +49,12 @@ $(document).ready(function () {
   // Calling the renderButtons function to display the intial buttons
   renderButtons();
 
-  //Click function
-  $('button').on('click', function () {
+  //displayShow function re-renders the HTML to display appropriate content
+  function displayShow() {
     var showInput = $(this).attr('data-name');
     var queryURL =
       'https://api.giphy.com/v1/gifs/search?api_key=qVceYfjJGpS4ovfu8seNpK6Zg9i4atGR&q=' +
-      showInput + "&limit=10";
+      showInput + "&limit=10&rating=G";
 
     $.ajax({
       url: queryURL,
@@ -77,28 +78,23 @@ $(document).ready(function () {
         gifDiv.prepend(showDiv);
       }
     });
-  });
+  };
   //END CLICK EVENT
 
-
-  $(document).on('click', '.gif', function() {
+  //Still vs animate function
+  $(document).on('click', '.gif', function () {
     var state = $(this).attr("data-state");
 
     if (state === 'still') {
       $(this).attr('src', $(this).attr('data-animate'));
       $(this).attr('data-state', 'animate');
-    }
-
-    else {
+    } else {
       $(this).attr('src', $(this).attr('data-still'));
       $(this).attr('data-state', 'still');
     }
   });
 
-
-
-
-
+  $(document).on('click', '.show', displayShow);
 
 
 });
