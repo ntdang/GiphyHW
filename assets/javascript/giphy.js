@@ -16,7 +16,7 @@ $(document).ready(function () {
       // This code $("<button>") is all jQuery needs to create the beginning and end tag. (<button></button>)
       var btn = $("<button>");
       // Adds a class of show to our buttons
-      btn.addClass("show");
+      btn.addClass("show snip0072 blue");
       // Added a data-attribute
       btn.attr("data-name", tvShows[i]);
       // Provided the initial button text
