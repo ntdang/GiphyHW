@@ -28,7 +28,7 @@ $(document).ready(function () {
   // This function handles events where the add show button is clicked
   $("#add-show").on("click", function (event) {
     event.preventDefault();
-    
+
     // This line of code will grab the input from the textbox
     var show = $("#show-input").val().trim();
 
@@ -54,7 +54,7 @@ $(document).ready(function () {
     var showInput = $(this).attr('data-name');
     var queryURL =
       'https://api.giphy.com/v1/gifs/search?api_key=qVceYfjJGpS4ovfu8seNpK6Zg9i4atGR&q=' +
-      showInput + "&limit=10&rating=G";
+      showInput + "&limit=10";
 
     $.ajax({
       url: queryURL,
