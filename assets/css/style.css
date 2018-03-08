@@ -95,3 +95,11 @@ button.snip0072.blue {
   background-color: lightslategray;
   color: #1e5d87;
 }
+
+.grid {
+  column-count: 5;
+}
+
+img {
+  margin-bottom: 25px;
+}
