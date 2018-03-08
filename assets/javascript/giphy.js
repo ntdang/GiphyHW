@@ -52,6 +52,7 @@ $(document).ready(function () {
 
   //displayShow function re-renders the HTML to display appropriate content
   function displayShow() {
+    $("#tvShows").empty();
     var showInput = $(this).attr('data-name');
     var queryURL =
       'https://api.giphy.com/v1/gifs/search?api_key=qVceYfjJGpS4ovfu8seNpK6Zg9i4atGR&q=' +
