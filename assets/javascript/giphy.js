@@ -44,6 +44,7 @@ $(document).ready(function () {
     // Calling renderButtons which handles the processing of our tv shows array
     renderButtons();
 
+    $("#show-input").val('');
   });
 
   // Calling the renderButtons function to display the intial buttons
